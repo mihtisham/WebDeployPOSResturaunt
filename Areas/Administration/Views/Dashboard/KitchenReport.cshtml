@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "KitchenReport";
+}
+
+<section class="page-header" style="margin-bottom:10px;">
+    <div class="container">
+        <form action="/Administration/Dashboard/KitchenReport" method="post">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.EJS().DropDownList("Plateform").Value(ViewBag.Plateform).DataSource((List<POSRestWebPlateform.ViewModels.ENUMToList>)ViewData["PlateformList"]).Fields(new Syncfusion.EJ2.DropDowns.DropDownListFieldSettings { Value = "Name", Text = "Name" }).Placeholder("Select plateform").Render()
+                </div>
+                <div class="col-md-3">
+                    @Html.EJS().DropDownList("Type", (ViewBag.Type != null) ? new Syncfusion.EJ2.DropDowns.DropDownList() { Value = ViewBag.Type } : new Syncfusion.EJ2.DropDowns.DropDownList()).DataSource((List<POSRestWebPlateform.ViewModels.ENUMToList>)ViewData["OrderTypeList"]).Fields(new Syncfusion.EJ2.DropDowns.DropDownListFieldSettings { Value = "Name", Text = "Name" }).Placeholder("Select Type").Render()
+                </div>
+                <div class="col-md-3">
+                    @Html.EJS().DatePicker("StartDate").Value(ViewBag.StartDate).Placeholder("Select StartDate").Render()
+                </div>
+                <div class="col-md-3">
+                    @Html.EJS().DatePicker("EndDate").Value(ViewBag.EndDate).Placeholder("Select EndDate").Render()
+                </div>
+                <div class="col-md-3">
+                    @Html.EJS().DatePicker("DailySale").Value(ViewBag.DailySale).Placeholder("Select Daily Sale").Render()
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-info">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<div class="container container-lg-custom" style="padding-bottom:20px;">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-xl-12 pt-3">
+            <div class="control-section">
+                @Html.EJS().Grid("OrderItem").DataSource(dataManger =>
+           {
+               dataManger.Url("/Administration/Dashboard/GetAllKitchenReport?Plateform=" + ViewBag.Plateform + "&Type=" + ViewBag.Type + "&StartDate=" + ViewBag.StartDate + "&EndDate=" + ViewBag.EndDate + "&DailySale=" + ViewBag.DailySale + "&branchId=" + ViewBag.BranchId).CrossDomain(true).Adaptor("WebApiAdaptor");
+           }).Columns(col =>
+           {
+
+               col.Field("Menu.Name").HeaderText("Menu Item").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               col.Field("Quantity").HeaderText("Quantity").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(5)).Aggregates(agg =>
+           {
+               agg.Columns(new List<Syncfusion.EJ2.Grids.GridAggregateColumn>() {
+                   new Syncfusion.EJ2.Grids.GridAggregateColumn() {
+                       Field = "Quantity", Type = "Sum", FooterTemplate = "Total Items: ${Sum}"
+                   } }).Add();
+           }).Render()
+                <script id="buttonTemplate" type="text/x-template">
+                    <div>
+                        <a class="btn btn-dark mb-2" href="/Administration/Role/Permission/${Id}" alt="Edit">Permission</a>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+

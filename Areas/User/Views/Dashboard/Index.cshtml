@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="page-header" style="margin-bottom:10px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8 text-left">
+                <span class="tob-sub-title text-color-primary d-block">BLOG MNAGEMENT</span>
+
+                <ul class="breadcrumb justify-content-start justify-content-md-start">
+                    <li><a href="#">Administration</a></li>
+                    <li>Blog</li>
+                    <li class="active">List</li>
+                </ul>
+
+            </div>
+            <div class="col-md-4">
+                @if ((ViewBag.Create != null) ? (bool)ViewBag.Create : true)
+                {
+                    <button type="button" class="btn btn-primary btn-outline btn-rounded btn-lg" data-toggle="modal" data-target="#CreateUserModal">CREATE NEW MODULE</button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container container-lg-custom" style="padding-bottom:20px;">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-xl-12 pt-3">
+            <div class="control-section">
+                @Html.EJS().Grid("Orders").DataSource(dataManger =>
+           {
+               dataManger.Url("/User/Dashboard/GetAllOrders").CrossDomain(true).Adaptor("WebApiAdaptor");
+           }).Columns(col =>
+           {
+
+               col.Field("OrderNumber").HeaderText("#").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               col.Field("OrderPlateform").HeaderText("Plateform").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               col.Field("OrderType").HeaderText("Type").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               col.Field("OrderTypeNumber").HeaderText("R.F No.").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               col.Field("TotalAmount").HeaderText("Total").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Left).Add();
+               //col.HeaderText("Action").Template("#buttonTemplate").Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(5)).Render()
+                <script id="buttonTemplate" type="text/x-template">
+                    <div>
+                        <a class="btn btn-dark mb-2" href="/Administration/Role/Permission/${Id}" alt="Edit">Permission</a>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
