@@ -1,44 +1,295 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/vendor/css")
+    @Styles.Render("~/theme/css")
+    @Styles.Render("~/page/css")
+    @Styles.Render("~/skins/css")
+    @Styles.Render("~/custom/css")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="canonical" href="https://www.godfatherburgers.com/" />
+    @Scripts.Render("~/modernizr/script")
+    <!-- Syncfusion Essential JS 2 Styles -->
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
+    <!-- Syncfusion Essential JS 2 Scripts -->
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <div class="body">
+        @if (TempData["Notification"] != null)
+        {
+            //@Html.Hidden("notificationAutoHide", TempData["notificationAutoHide"])
+            <div class="alert @TempData["notificationClass"] alert-dismissible" role="alert" style=" width: 50%; position: fixed; z-index: 5000; left: 25%; top: 10px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @TempData["Notification"]
+
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        }
+        <header id="header" class="header-effect-shrink" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 120, 'stickySetTop': 0}">
+            <div class="header-body">
+                <div class="header-top header-top-colored bg-primary">
+                    <div class="header-top-container container container-lg-custom">
+                        <div class="header-row">
+                            <div class="header-column justify-content-start">
+
+                                <i class="lnr lnr-phone-handset font-weight-semibold mr-1"></i>
+                                <a href="" id="nav-phone"></a>
+                            </div>
+                            <div class="header-column justify-content-end">
+                                <div class="header-top-language font-weight-semibold text-0-1 d-none d-sm-block">
+                                    <a href="#" class="nav-link dropdown-menu-toggle py-2" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Branches	<i class="fas fa-angle-down fa-sm"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-right font-weight-normal" id="branch-list" aria-labelledby="dropdownLanguage">
+                                        @*<li><a href="/Home/SetBranch/FSD" class="no-skin">FSD</a></li>
+                                            <li><a href="/HOME/SetBranch/LHR" class="no-skin">LHR</a></li>*@
+                                    </ul>
+                                </div>
+
+                                <div class="header-column justify-content-end">
+                                    <form class="search-form-mobile d-md-none" method="GET">
+                                        <div class="mobile-search-toggle"><i class="lnr lnr-magnifier"></i></div>
+                                        <div class="input-group">
+                                            <input type="text" name="s" placeholder="Search..." aria-label="Search...">
+                                            <span class="input-group-btn">
+                                                <button class="btn" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <div class="mini-cart order-4 mr-3 mr-sm-0" id="cart-list">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-container container" style="height: 100px; min-height: 0px;">
+                    <div class="header-row">
+                        <div class="header-column justify-content-start">
+                            <div class="header-logo">
+                                <a href="https://www.godfatherburgers.com">
+                                    <img alt="God Father Burgers" src="/Content/img/Converted-Logo.png" style="height:77px;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="header-column justify-content-center">
+
+                        </div>
+                        <div class="header-column justify-content-end">
+                            <div class="header-nav">
+                                <div class="header-nav-main header-nav-main-uppercase header-nav-main-effect-1 header-nav-main-sub-effect-1">
+                                    <nav class="collapse">
+                                        <ul class="nav flex-column flex-lg-row" id="mainNav">
+                                            @*<li class="dropdown">
+                                                    <a class="dropdown-item dropdown-toggle active" href="/Blog">
+                                                        Administration
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="/Administration/Blog">Blog</a></li>
+                                                        <li><a href="/Administration/User">User</a></li>
+                                                        <li><a href="/Administration/Module">Module</a></li>
+                                                        <li><a href="/Administration/Role">Role</a></li>
+                                                    </ul>
+                                                </li>*@
+                                            <li class="dropdown">
+                                                <a class="dropdown-item dropdown-toggle active" href="/Blog">
+                                                    @*@User.Identity.GetLoginEmail()*@
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/Administration/Blog">Profile</a></li>
+                                                    <li><a href="/Administration/Blog">Change Password</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="header-button d-none d-sm-flex ml-3">
+
+                                    <a href="/Account/Login" class="btn btn-link text-color-default font-weight-bold order-3 text-1">Login / Register</a>
+                                    @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { area = "" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            //@Html.ActionLink("Logout", "LogOff", "Account", null, new { @class = "btn btn-outline btn-rounded btn-primary btn-4 btn-icon-effect-1", onclick = "return false;" })
+
+                                            <button type="submit" class="submit btn btn-outline btn-rounded btn-primary btn-4 btn-icon-effect-1">
+                                                <span class="wrap">
+                                                    <span>Logout</span>
+                                                    <i class="sl-logout sl"></i>
+                                                </span>
+                                            </button>
+                                        }*@
+                                </div>
+                                <button class="header-btn-collapse-nav ml-3" data-toggle="collapse" data-target=".header-nav-main nav">
+                                    <span class="hamburguer">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </span>
+                                    <span class="close">
+                                        <span></span>
+                                        <span></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </header>
+
+        <div role="main" class="main bg-light-1">
+            @RenderBody()
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+
+        <footer id="footer" class="footer-hover-links-light mt-0" data-plugin-image-background data-plugin-options="{'imageUrl': '/content/img/footer/background-1.png', 'bgPosition': 'center 0'}">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <ul class="list list-icon list-unstyled">
+                            <li class="mb-2"><i class="fas fa-angle-right mr-2 ml-1"></i> <span class="text-color-light">Address:</span><span id="footer-address"></span></li>
+                            <li class="mb-2"><i class="fas fa-angle-right mr-2 ml-1"></i> <span class="text-color-light">Phone:</span> <a href="" id="footer-phone"></a></li>
+                            <li class="mb-2"><i class="fas fa-angle-right mr-2 ml-1"></i> <span class="text-color-light">Mobile:</span> <a href="" id="footer-mobile"></a></li>
+                            <li class="mb-2"><i class="fas fa-angle-right mr-2 ml-1"></i> <span class="text-color-light">Email:</span> <a href="" id="footer-email" class="link-underline-light"></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 mb-4 mb-lg-0">
+                        <h2 class="text-3 mb-3">Quick Links</h2>
+                        <ul class="list list-icon list-unstyled">
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <h2 class="text-3 mb-3">NEWSLETTER</h2>
+                        <p>Keep up with our always upcoming product features and technologies. Enter your e-mail and subscribe to our newsletter.</p>
+
+                        <form class="newsletter-form" action="php/newsletter-subscribe.php" method="POST" novalidate="novalidate">
+                            <div class="newsletter-form-success alert alert-success d-none">
+                                <strong>Success!</strong> You've been added to our email list.
+                            </div>
+                            <div class="newsletter-form-error alert alert-danger d-none">
+                                <strong>Error!</strong> There was an error to add your email.
+                            </div>
+
+                            <div class="input-group bg-light rounded">
+                                <input type="email" class="newsletter-email form-control border-0 rounded" placeholder="Enter Email address" aria-label="Enter Email address" required="" aria-invalid="true">
+                                <span class="input-group-btn p-1">
+                                    <button class="btn btn-primary font-weight-semibold btn-h-2 rounded h-100" type="submit">SUBSCRIBE</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    <div class="row text-center text-md-left align-items-center">
+                        <div class="col-md-7 col-lg-8">
+                            <ul class="social-icons social-icons-transparent social-icons-icon-light social-icons-lg">
+                                <li class="social-icons-facebook"><a href="" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                <li class="social-icons-twitter"><a href="" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li class="social-icons-linkedin">
+                                    <a href="" target="_blank" title="Linkedin"><i class="fab fa-linkedin"></i></a>
+                                </li>
+                                <li class="social-icons-youtube">
+                                    <a href="" target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5 col-lg-4">
+                            <p class="text-md-right pb-0 mb-0">© @DateTime.Now.Date.Year GodFatherBurgers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <div id="cookieConsent" style="display:none;">
+        <div id="closeCookieConsent">x</div>
+        This website is using cookies. <a href="/privacy-policy" target="_blank">More info</a>. <a class="cookieConsentOK">That's Fine</a>
+    </div>
+
+    <div class="modal fade" id="select-branch-model" tabindex="-1" role="dialog" aria-labelledby="exampleModal4Label" aria-hidden="true">
+        <div class="modal-dialog text-left" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select branch</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list list-group" id="select-branch-list">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- Vendor -->
+    @Scripts.Render("~/vendor/script")
+    @Scripts.Render("~/cookie/script")
+    <!-- Theme Base, Components and Settings -->
+    @Scripts.Render("~/theme/script")
+
+    <!-- Current Page Vendor and Views -->
+    @Scripts.Render("~/page/script")
+    @Scripts.Render("~/custom/script/parallax")
+    <!-- Theme Custom -->
+    <!-- Theme Initialization Files -->
+    @Scripts.Render("~/custom/script")
+
+
+
+    <!-- Examples -->
+    @Scripts.Render("~/lightboxes/script")
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="~/Scripts/Custom/layout-scripts.js"></script>
+    <script>
+        $(document).ready(function () {
+            var cookieval = "@Request.Cookies["cookieconsent"]";
+            if (cookieval == "") {
+                setTimeout(function () {
+                    $("#cookieConsent").fadeIn(200);
+                }, 4000);
+            }
+            $(".cookieConsentOK").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/CreateCookieConsent",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        $("#cookieConsent").fadeOut(200);
+                    }
+                });
+            });
+
+            $("#closeCookieConsent").click(function () {
+                $("#cookieConsent").fadeOut(200);
+            });
+        });
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-125721896-1');
+    </script>
+
+    <script>
+            //window.intercomSettings = {
+            //    app_id: "fe2evmnz"
+            //};
+    </script>
     @RenderSection("scripts", required: false)
+    @Html.EJS().ScriptManager()
 </body>
 </html>
