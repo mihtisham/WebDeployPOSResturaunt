@@ -1,0 +1,52 @@
+﻿@model List<POSRestWebPlateform.ViewModels.MenuCartViewModel>
+@{
+    Layout = null;
+}
+<span class="font-weight-bold font-primary d-none d-sm-block">Cart / <span class="cart-total">Rs @Model.Sum(x => x.Total)</span></span>
+<div class="mini-cart-icon">
+    <img src="/Content/img/icons/cart-bag.svg" class="img-fluid" alt="" />
+    <span class="badge badge-primary rounded-circle">@Model.Count()</span>
+</div>
+<div class="mini-cart-content">
+    <div class="inner-wrapper bg-light rounded">
+        <div class="mini-cart-product" @*style="width:100%; height:100px; overflow-y:scroll; overflow-x:hidden;"*@>
+            @foreach (var cart in Model) {
+            <div class="row">
+                <div class="col-7">
+                    <h2 class="text-color-default font-secondary text-1 mt-3 mb-0">@cart.Name</h2>
+                    <strong class="text-color-dark">
+                        <span>@cart.Quantity x</span>
+                        <span>Rs @cart.Total</span>
+                    </strong>
+                </div>
+                <div class="col-5">
+                    <div class="product-image">
+                        <a href="#" class="btn btn-dark btn-rounded justify-content-center align-items-center"><i class="fas fa-times"></i></a>
+                        <img src="img/products/product-2.jpg" class="img-fluid rounded" alt="" />
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="mini-cart-total">
+            <div class="row">
+                <div class="col">
+                    <strong class="text-color-dark">TOTAL:</strong>
+                </div>
+                <div class="col text-right">
+                    <strong class="total-value text-color-dark">Rs @Model.Sum(x=>x.Total)</strong>
+                </div>
+            </div>
+        </div>
+        <div class="mini-cart-actions">
+            <div class="row">
+                <div class="col pr-1">
+                    <a href="/Home/Cart" class="btn btn-dark font-weight-bold rounded text-0">VIEW CART</a>
+                </div>
+                <div class="col pl-1">
+                    <a href="/Home/Checkout" class="btn btn-primary font-weight-bold rounded text-0">CHECKOUT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
